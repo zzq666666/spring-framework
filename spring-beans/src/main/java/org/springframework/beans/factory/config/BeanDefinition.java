@@ -24,7 +24,7 @@ import org.springframework.lang.Nullable;
 
 /**
  * BeanDefinition描述了一个bean实例，它具有属性值，构造函数参数值以及具体实现所提供的更多信息。
- * 这只是一个最小的界面：主要目的是允许{@link BeanFactoryPostProcessor}进行内部检查和修改属性值和其他bean元数据。
+ * 这只是一个最小的接口：主要目的是允许{@link BeanFactoryPostProcessor}进行内部检查和修改属性值和其他bean元数据。
  *
  * A BeanDefinition describes a bean instance, which has property values,
  * constructor argument values, and further information supplied by
@@ -44,14 +44,17 @@ import org.springframework.lang.Nullable;
 public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
 	/**
+	 * 单实例
 	 * Scope identifier for the standard singleton scope: {@value}.
 	 * <p>Note that extended bean factories might support further scopes.
+	 *
 	 * @see #setScope
 	 * @see ConfigurableBeanFactory#SCOPE_SINGLETON
 	 */
 	String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
 
 	/**
+	 * 多实例
 	 * Scope identifier for the standard prototype scope: {@value}.
 	 * <p>Note that extended bean factories might support further scopes.
 	 * @see #setScope
@@ -61,6 +64,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 
 
 	/**
+	 * 用于区分BeanDefinition的角色 通常表示用户自定义的Bean
 	 * Role hint indicating that a {@code BeanDefinition} is a major part
 	 * of the application. Typically corresponds to a user-defined bean.
 	 */
@@ -78,6 +82,10 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	int ROLE_SUPPORT = 1;
 
 	/**
+	 * 角色提示，指示{@code BeanDefinition}正在提供
+	 * 完全是后台角色，与最终用户无关。 这个提示是
+	 * 在注册完全属于内部工作的bean时使用{@link org.springframework.beans.factory.parsing.ComponentDefinition}的内容。
+	 *
 	 * Role hint indicating that a {@code BeanDefinition} is providing an
 	 * entirely background role and has no relevance to the end-user. This hint is
 	 * used when registering beans that are completely part of the internal workings
@@ -100,6 +108,9 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String getParentName();
 
 	/**
+	 * 指定此bean定义的bean类名称。
+	 * <p>可以在 beanfactorypostprocessor 处理期间修改类名，通常用解析后的变体替换原始的类名。
+	 *
 	 * Specify the bean class name of this bean definition.
 	 * <p>The class name can be modified during bean factory post-processing,
 	 * typically replacing the original class name with a parsed variant of it.
@@ -125,6 +136,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String getBeanClassName();
 
 	/**
+	 * 设置Bean的scope
 	 * Override the target scope of this bean, specifying a new scope name.
 	 * @see #SCOPE_SINGLETON
 	 * @see #SCOPE_PROTOTYPE
@@ -139,6 +151,7 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	String getScope();
 
 	/**
+	 * 设置Bean的lazy属性
 	 * Set whether this bean should be lazily initialized.
 	 * <p>If {@code false}, the bean will get instantiated on startup by bean
 	 * factories that perform eager initialization of singletons.
@@ -152,6 +165,8 @@ public interface BeanDefinition extends AttributeAccessor, BeanMetadataElement {
 	boolean isLazyInit();
 
 	/**
+	 * 设置该bean依赖于初始化的bean的名称。
+	 * Bean工厂将确保首先初始化这些Bean。
 	 * Set the names of the beans that this bean depends on being initialized.
 	 * The bean factory will guarantee that these beans get initialized first.
 	 */
