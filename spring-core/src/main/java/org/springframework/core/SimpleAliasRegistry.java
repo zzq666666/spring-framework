@@ -42,13 +42,25 @@ import org.springframework.util.StringValueResolver;
  */
 public class SimpleAliasRegistry implements AliasRegistry {
 
-	/** Logger available to subclasses. */
+	/**
+	 * Logger available to subclasses.
+	 */
 	protected final Log logger = LogFactory.getLog(getClass());
 
-	/** Map from alias to canonical name. */
+	/**
+	 * Map from alias to canonical name.
+	 * 所有别名的map
+	 * key=别名  value=规范名称
+	 */
 	private final Map<String, String> aliasMap = new ConcurrentHashMap<>(16);
 
 
+	/**
+	 * * 允许给别名注册别名；不允许别名进行循环注册，比如，name,alias_1,  alias_1,name就会报错。
+	 *
+	 * @param name  the canonical name
+	 * @param alias the alias to be registered
+	 */
 	@Override
 	public void registerAlias(String name, String alias) {
 		Assert.hasText(name, "'name' must not be empty");
@@ -59,14 +71,15 @@ public class SimpleAliasRegistry implements AliasRegistry {
 				if (logger.isDebugEnabled()) {
 					logger.debug("Alias definition '" + alias + "' ignored since it points to same name");
 				}
-			}
-			else {
+			} else {
 				String registeredName = this.aliasMap.get(alias);
+				// 该别名已经被注册
 				if (registeredName != null) {
 					if (registeredName.equals(name)) {
 						// An existing alias - no need to re-register
 						return;
 					}
+					// 如果不允许覆盖别名 直接抛出异常
 					if (!allowAliasOverriding()) {
 						throw new IllegalStateException("Cannot define alias '" + alias + "' for name '" +
 								name + "': It is already registered for name '" + registeredName + "'.");
@@ -86,6 +99,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 确定是否允许别名覆盖。
 	 * Determine whether alias overriding is allowed.
 	 * <p>Default is {@code true}.
 	 */
@@ -94,6 +108,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 确定给定名称是否已注册给定别名。
 	 * Determine whether the given name has the given alias registered.
 	 * @param name the name to check
 	 * @param alias the alias to look for
@@ -185,6 +200,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 *检查是否循环注册别名
 	 * Check whether the given name points back to the given alias as an alias
 	 * in the other direction already, catching a circular reference upfront
 	 * and throwing a corresponding IllegalStateException.
@@ -202,6 +218,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	}
 
 	/**
+	 * 确定原始名称，将别名解析为规范名称
 	 * Determine the raw name, resolving aliases to canonical names.
 	 * @param name the user-specified name
 	 * @return the transformed name

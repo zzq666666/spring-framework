@@ -60,4 +60,26 @@ class SimpleAliasRegistryTests {
 		assertThat(registry.hasAlias("real_name", "alias_c")).isTrue();
 	}
 
+	@Test
+	void testSimpleAliasRegistry1() {
+		SimpleAliasRegistry registry = new SimpleAliasRegistry();
+		registry.registerAlias("name", "alias_1");
+		registry.registerAlias("name", "alias_2");
+
+		registry.registerAlias("alias_1", "alias_A");
+		//registry.registerAlias("alias_A", "alias_1");
+
+		String[] names = registry.getAliases("name");
+
+		String alias_1 = registry.canonicalName("alias_1");
+
+		boolean name = registry.isAlias("name");
+
+		registry.removeAlias("name");
+
+		boolean name1 = registry.hasAlias("name", "alias_2");
+
+
+	}
+
 }

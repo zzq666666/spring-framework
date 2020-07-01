@@ -123,14 +123,22 @@ import org.springframework.util.StringUtils;
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
 		implements AutowireCapableBeanFactory {
 
-	/** Strategy for creating bean instances. */
+	/**
+	 * Strategy for creating bean instances.
+	 */
 	private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
 
-	/** Resolver strategy for method parameter names. */
+	/**
+	 * Resolver strategy for method parameter names.
+	 */
 	@Nullable
 	private ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
 
-	/** Whether to automatically try to resolve circular references between beans. */
+	/**
+	 * Whether to automatically try to resolve circular references between beans.
+	 * 是否支持循环引用 默认支持
+	 * 也可以关闭，比如写一个BeanFactoryPostProcessor实现类来设置该属性值为false
+	 */
 	private boolean allowCircularReferences = true;
 
 	/**
