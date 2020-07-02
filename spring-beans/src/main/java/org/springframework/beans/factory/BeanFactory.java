@@ -287,6 +287,12 @@ public interface BeanFactory {
 	boolean isPrototype(String name) throws NoSuchBeanDefinitionException;
 
 	/**
+	 * 检查具有给定名称的bean是否与指定的类型匹配。
+	 * 更具体地说，检查给定名称的{@link#getBean}调用是否正确
+	 * 将返回可分配给指定目标类型的对象。
+	 * <p>将别名转换回相应的规范bean名称。
+	 * <p>将询问父工厂是否在此工厂实例中找不到bean。
+	 *
 	 * Check whether the bean with the given name matches the specified type.
 	 * More specifically, check whether a {@link #getBean} call for the given name
 	 * would return an object that is assignable to the specified target type.

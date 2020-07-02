@@ -500,6 +500,13 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	}
 
 	/**
+	 * allowFactoryBeanInit是{@link#isTypeMatch（String，ResolvableType）}的内部扩展变量
+	 * 检查具有给定名称的bean是否与指定的类型匹配。允许
+	 * 要应用的附加约束，以确保不会提前创建bean。
+	 * {@param name要查询的bean的名称}
+	 * {@param type匹配要匹配的类型}（作为{@code ResolvableType}）@如果bean类型匹配，则返回{@code true}，如果匹配，则返回{@code false}
+	 *不匹配或尚未确定.@如果没有具有给定名称的bean，则抛出NoSuchBeanDefinitionException
+	 *
 	 * Internal extended variant of {@link #isTypeMatch(String, ResolvableType)}
 	 * to check whether the bean with the given name matches the specified type. Allow
 	 * additional constraints to be applied to ensure that beans are not created early.
