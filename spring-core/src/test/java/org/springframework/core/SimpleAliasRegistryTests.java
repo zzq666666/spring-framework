@@ -75,9 +75,14 @@ class SimpleAliasRegistryTests {
 
 		boolean name = registry.isAlias("name");
 
-		registry.removeAlias("name");
+		//	registry.removeAlias("name");
 
 		boolean name1 = registry.hasAlias("name", "alias_2");
+
+		String alias_a = registry.canonicalName("alias_A");
+		String alias_a1 = registry.canonicalName("alias_A11111");
+
+		System.out.println("1111111");
 
 
 	}

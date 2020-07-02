@@ -224,15 +224,18 @@ public class SimpleAliasRegistry implements AliasRegistry {
 	 * @return the transformed name
 	 */
 	public String canonicalName(String name) {
+		// 找不到的话 返回本身
 		String canonicalName = name;
 		// Handle aliasing...
 		String resolvedName;
 		do {
 			resolvedName = this.aliasMap.get(canonicalName);
 			if (resolvedName != null) {
+				// 该值就是被找到的规范的名字
 				canonicalName = resolvedName;
 			}
 		}
+		//  此处为什么要循环用呢？因为可以给别名注册别名。循环后 最终都会找到最原始的规范的名字
 		while (resolvedName != null);
 		return canonicalName;
 	}
