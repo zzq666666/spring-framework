@@ -124,6 +124,7 @@ public abstract class AnnotationConfigUtils {
 	static {
 		ClassLoader classLoader = AnnotationConfigUtils.class.getClassLoader();
 		jsr250Present = ClassUtils.isPresent("javax.annotation.Resource", classLoader);
+		// 是否需要注册jpa的（PersistenceAnnotationBeanPostProcessor）处理器的标志
 		jpaPresent = ClassUtils.isPresent("javax.persistence.EntityManagerFactory", classLoader) &&
 				ClassUtils.isPresent(PERSISTENCE_ANNOTATION_PROCESSOR_CLASS_NAME, classLoader);
 	}

@@ -25,6 +25,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ObjectUtils;
 
 /**
+ * 可以帮助快速创建一个BeanDefinition 构建者模式
+ * 可以创建genericBeanDefinition 、rootBeanDefinition、childBeanDefinition
  * Programmatic means of constructing
  * {@link org.springframework.beans.factory.config.BeanDefinition BeanDefinitions}
  * using the builder pattern. Intended primarily for use when implementing Spring 2.0

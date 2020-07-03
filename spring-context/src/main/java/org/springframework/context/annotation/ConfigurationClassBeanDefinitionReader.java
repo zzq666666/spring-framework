@@ -211,6 +211,7 @@ class ConfigurationClassBeanDefinitionReader {
 			return;
 		}
 
+		// 将@Bean注解解析成 ConfigurationClassBeanDefinition
 		ConfigurationClassBeanDefinition beanDef = new ConfigurationClassBeanDefinition(configClass, metadata);
 		beanDef.setSource(this.sourceExtractor.extractSource(metadata, configClass.getResource()));
 
@@ -218,8 +219,7 @@ class ConfigurationClassBeanDefinitionReader {
 			// static @Bean method
 			if (configClass.getMetadata() instanceof StandardAnnotationMetadata) {
 				beanDef.setBeanClass(((StandardAnnotationMetadata) configClass.getMetadata()).getIntrospectedClass());
-			}
-			else {
+			} else {
 				beanDef.setBeanClassName(configClass.getMetadata().getClassName());
 			}
 			beanDef.setUniqueFactoryMethodName(methodName);

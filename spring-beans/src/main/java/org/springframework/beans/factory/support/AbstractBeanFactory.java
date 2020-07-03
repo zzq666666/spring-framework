@@ -156,23 +156,35 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 	/** Indicates whether any InstantiationAwareBeanPostProcessors have been registered. */
 	private volatile boolean hasInstantiationAwareBeanPostProcessors;
 
-	/** Indicates whether any DestructionAwareBeanPostProcessors have been registered. */
+	/**
+	 * Indicates whether any DestructionAwareBeanPostProcessors have been registered.
+	 */
 	private volatile boolean hasDestructionAwareBeanPostProcessors;
 
-	/** Map from scope identifier String to corresponding Scope. */
+	/**
+	 * Map from scope identifier String to corresponding Scope.
+	 */
 	private final Map<String, Scope> scopes = new LinkedHashMap<>(8);
 
-	/** Security context used when running with a SecurityManager. */
+	/**
+	 * Security context used when running with a SecurityManager.
+	 */
 	@Nullable
 	private SecurityContextProvider securityContextProvider;
 
-	/** Map from bean name to merged RootBeanDefinition. */
+	/**
+	 * Map from bean name to merged RootBeanDefinition.
+	 */
 	private final Map<String, RootBeanDefinition> mergedBeanDefinitions = new ConcurrentHashMap<>(256);
 
-	/** Names of beans that have already been created at least once. */
+	/**
+	 * Names of beans that have already been created at least once.
+	 */
 	private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
 
-	/** Names of beans that are currently in creation. */
+	/**
+	 * Names of beans that are currently in creation.
+	 */
 	private final ThreadLocal<Object> prototypesCurrentlyInCreation =
 			new NamedThreadLocal<>("Prototype beans currently in creation");
 

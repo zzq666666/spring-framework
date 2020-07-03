@@ -36,6 +36,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.PatternMatchUtils;
 
 /**
+ * BeanDefinition扫描器，主要用于类路径上扫描bean，并注册到给定的BeanDefinitionRegistry。主要是用于扫描如下注解：
+ * {@link org.springframework.stereotype.Component @Component},
+ * {@link org.springframework.stereotype.Repository @Repository},
+ * {@link org.springframework.stereotype.Service @Service}, or
+ * {@link org.springframework.stereotype.Controller @Controller}。
+ *
+ *
  * A bean definition scanner that detects bean candidates on the classpath,
  * registering corresponding bean definitions with a given registry ({@code BeanFactory}
  * or {@code ApplicationContext}).
@@ -244,16 +251,22 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 
 
 	/**
+	 * 扫描指定包下的类
 	 * Perform a scan within the specified base packages.
+	 *
 	 * @param basePackages the packages to check for annotated classes
-	 * @return number of beans registered
+	 * @return number of beans registered 注册的bean得个数
 	 */
 	public int scan(String... basePackages) {
+		// 获取现有beanDefinition注册器中已经注册的bean个数
 		int beanCountAtScanStart = this.registry.getBeanDefinitionCount();
 
 		doScan(basePackages);
 
 		// Register annotation config processors, if necessary.
+		// 注册注解配置处理器 默认为true,ConfigurationClassPostProcessor就是在此时注册的
+		// 具体查看方法
+		// org.springframework.context.annotation.AnnotationConfigUtils.registerAnnotationConfigProcessors(org.springframework.beans.factory.support.BeanDefinitionRegistry, java.lang.Object)
 		if (this.includeAnnotationConfig) {
 			AnnotationConfigUtils.registerAnnotationConfigProcessors(this.registry);
 		}
@@ -266,8 +279,10 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
 	 * returning the registered bean definitions.
 	 * <p>This method does <i>not</i> register an annotation config processor
 	 * but rather leaves this up to the caller.
-	 * @param basePackages the packages to check for annotated classes
-	 * @return set of beans registered if any for tooling registration purposes (never {@code null})
+	 *
+	 * 此方法不注册注解处理器，将他留给调用方。
+	 * @param basePackages the packages to check for annotated classes   需要注册的包数组
+	 * @return set of beans registered if any for tooling registration purposes (never {@code null}) 返回已经注册的BeanDefinitionHolder
 	 */
 	protected Set<BeanDefinitionHolder> doScan(String... basePackages) {
 		Assert.notEmpty(basePackages, "At least one base package must be specified");
