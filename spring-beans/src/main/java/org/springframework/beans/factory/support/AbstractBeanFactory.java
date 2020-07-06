@@ -1291,12 +1291,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 
 	/**
+	 * TODO
 	 * Return a merged RootBeanDefinition, traversing the parent bean definition
 	 * if the specified bean corresponds to a child bean definition.
+	 *
 	 * @param beanName the name of the bean to retrieve the merged definition for
 	 * @return a (potentially merged) RootBeanDefinition for the given bean
 	 * @throws NoSuchBeanDefinitionException if there is no bean with the given name
-	 * @throws BeanDefinitionStoreException in case of an invalid bean definition
+	 * @throws BeanDefinitionStoreException  in case of an invalid bean definition
 	 */
 	protected RootBeanDefinition getMergedLocalBeanDefinition(String beanName) throws BeansException {
 		// Quick check on the concurrent map first, with minimal locking.
