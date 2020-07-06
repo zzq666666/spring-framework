@@ -24,7 +24,11 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.lang.Nullable;
 
 /**
+ * 负责创建RootBeanDefinition的接口，就是把RootBeanDefinition创建为对象的策略接口。
  * Interface responsible for creating instances corresponding to a root bean definition.
+ *
+ *
+ * <p>随着各种方法的发展，这被拉到一项战略中，可能包括使用CGLIB动态创建子类以支持方法注入。
  *
  * <p>This is pulled out into a strategy as various approaches are possible,
  * including using CGLIB to create subclasses on the fly to support Method Injection.

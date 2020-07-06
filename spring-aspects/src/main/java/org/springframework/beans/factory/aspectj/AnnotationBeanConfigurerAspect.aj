@@ -45,27 +45,28 @@ import org.springframework.beans.factory.wiring.BeanConfigurerSupport;
  * @see org.springframework.beans.factory.annotation.AnnotationBeanWiringInfoResolver
  */
 public aspect AnnotationBeanConfigurerAspect extends AbstractInterfaceDrivenDependencyInjectionAspect
-		implements BeanFactoryAware, InitializingBean, DisposableBean {
+        implements BeanFactoryAware, InitializingBean, DisposableBean {
 
-	private BeanConfigurerSupport beanConfigurerSupport = new BeanConfigurerSupport();
+    private BeanConfigurerSupport beanConfigurerSupport = new BeanConfigurerSupport();
 
 
-	public void setBeanFactory(BeanFactory beanFactory) {
-		this.beanConfigurerSupport.setBeanWiringInfoResolver(new AnnotationBeanWiringInfoResolver());
-		this.beanConfigurerSupport.setBeanFactory(beanFactory);
-	}
+    public void setBeanFactory(BeanFactory beanFactory) {
+        this.beanConfigurerSupport.setBeanWiringInfoResolver(new AnnotationBeanWiringInfoResolver());
+        this.beanConfigurerSupport.setBeanFactory(beanFactory);
+    }
 
-	public void afterPropertiesSet() {
-		this.beanConfigurerSupport.afterPropertiesSet();
-	}
+    @Override
+    public void afterPropertiesSet() {
+        this.beanConfigurerSupport.afterPropertiesSet();
+    }
 
-	public void configureBean(Object bean) {
-		this.beanConfigurerSupport.configureBean(bean);
-	}
+    public void configureBean(Object bean) {
+        this.beanConfigurerSupport.configureBean(bean);
+    }
 
-	public void destroy() {
-		this.beanConfigurerSupport.destroy();
-	}
+    public void destroy() {
+        this.beanConfigurerSupport.destroy();
+    }
 
 
 	public pointcut inConfigurableBean() : @this(Configurable);
