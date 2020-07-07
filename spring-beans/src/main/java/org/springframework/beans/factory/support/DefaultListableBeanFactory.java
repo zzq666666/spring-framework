@@ -907,19 +907,22 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 							isEagerInit = (factory instanceof SmartFactoryBean &&
 									((SmartFactoryBean<?>) factory).isEagerInit());
 						}
+						// 是否需要提前初始化
 						if (isEagerInit) {
 							getBean(beanName);
 						}
 					}
 				}
 				else {
-					// 不是factoryBean直接获取
+					// 不是factoryBean直接获取,获取的时候会去实例化Bean
 					getBean(beanName);
 				}
 			}
 		}
 
 		// Trigger post-initialization callback for all applicable beans...
+		//触发所有bean的初始化后回调
+
 		for (String beanName : beanNames) {
 			Object singletonInstance = getSingleton(beanName);
 			if (singletonInstance instanceof SmartInitializingSingleton) {

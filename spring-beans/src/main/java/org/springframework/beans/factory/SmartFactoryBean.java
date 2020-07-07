@@ -61,6 +61,16 @@ public interface SmartFactoryBean<T> extends FactoryBean<T> {
 	}
 
 	/**
+	 * 此FactoryBean是否期望进行急切的初始化，即渴望初始化自己以及期望对其单例对象（如果有）进行渴望的初始化？
+	 *<p>不希望标准FactoryBean急于初始化：
+	 * 它的{@link #getObject（）}仅在实际访问时被调用，即使是单例对象也是如此。 从这里返回{@code true}
+	 * 方法建议{@link #getObject（）}应该被急切地调用
+	 * 也热切地应用后处理器。 对于{@link #isSingleton（）单例}对象，这可能是有道理的，特别是如果后处理器希望在启动时应用。
+	 * <p>默认实现返回{@code false}。
+	 *
+	 *
+	 * 默认情况下，该FactoryBean是懒加载的.
+	 *
 	 * Does this FactoryBean expect eager initialization, that is,
 	 * eagerly initialize itself as well as expect eager initialization
 	 * of its singleton object (if any)?
