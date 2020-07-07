@@ -19,6 +19,14 @@ package org.springframework.beans.factory;
 import org.springframework.lang.Nullable;
 
 /**
+ * 当对象实现该接口的时候，则它将用作工厂，而不是把本身实例返回，返回的是getObject()方法的返回。
+ *
+ * <p> FactoryBeans可以支持单例和原型，并且可以创建
+ * 懒惰地按需或急于启动的对象。  {@link SmartFactoryBean}接口允许公开更细粒度的行为元数据。
+ *
+ *
+ *
+ *
  * Interface to be implemented by objects used within a {@link BeanFactory} which
  * are themselves factories for individual objects. If a bean implements this
  * interface, it is used as a factory for an object to expose, not directly as a
@@ -42,6 +50,13 @@ import org.springframework.lang.Nullable;
  * {@link #getObjectType()} {@link #getObject()} invocations may arrive early in the
  * bootstrap process, even ahead of any post-processor setup. If you need access to
  * other beans, implement {@link BeanFactoryAware} and obtain them programmatically.
+ *
+ *
+ *
+ * <p> <b>该容器仅负责管理FactoryBean实例的生命周期，而不负责管理FactoryBean创建的对象的生命周期。
+ * </ b>因此，对暴露的Bean对象（例如{@link java.io.Closeable＃close（）}
+ * <i>不会</ i>会自动调用。 相反，FactoryBean应该实现{@link DisposableBean}
+ * 并将任何此类关闭调用委托给基础对象。
  *
  * <p><b>The container is only responsible for managing the lifecycle of the FactoryBean
  * instance, not the lifecycle of the objects created by the FactoryBean.</b> Therefore,
