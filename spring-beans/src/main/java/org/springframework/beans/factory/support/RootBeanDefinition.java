@@ -233,8 +233,13 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 	}
 
 	/**
+	 * 浅复制：仅仅是指向被复制的内存地址，如果原地址发生改变，那么浅复制出来的对象也会相应的改变。
+	 * 深复制：在计算机中开辟一块新的内存地址用于存放复制的对象。
+	 * <p>
+	 * 创建一个新的RootBeanDefinition作为给定的深层副本
 	 * Create a new RootBeanDefinition as deep copy of the given
 	 * bean definition.
+	 *
 	 * @param original the original bean definition to copy from
 	 */
 	public RootBeanDefinition(RootBeanDefinition original) {
