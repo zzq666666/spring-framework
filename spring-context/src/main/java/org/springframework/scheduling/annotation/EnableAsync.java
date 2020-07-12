@@ -29,9 +29,12 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 
 /**
+ * 启用Spring的异步方法执行功能，类似于Spring的{@code <task：*>} XML名称空间中的功能。
+ *
  * Enables Spring's asynchronous method execution capability, similar to functionality
  * found in Spring's {@code <task:*>} XML namespace.
  *
+ * <p>要与@ {@link Configuration Configuration}类一起使用，如下所述，从而为整个Spring应用程序上下文启用注释驱动的异步处理：
  * <p>To be used together with @{@link Configuration Configuration} classes as follows,
  * enabling annotation-driven async processing for an entire Spring application context:
  *
@@ -58,6 +61,12 @@ import org.springframework.core.Ordered;
  *     }
  * }</pre>
  *
+ *<p>默认情况下，Spring将搜索关联的线程池定义：在上下文中为唯一的{@link org.springframework.core.task.TaskExecutor} bean，
+ * 否则，否则命名为“ @taskExecutor”的{@link java.util.concurrent.Executor} bean。 如果二者都不可解决，
+ * 将使用{@link org.springframework.core.task.SimpleAsyncTaskExecutor}处理异步方法调用。
+ * 此外，具有{@code void}返回类型的带注释的方法无法将任何异常发送回调用方。 默认情况下，仅记录此类未捕获的异常。
+ *
+ *
  * <p>By default, Spring will be searching for an associated thread pool definition:
  * either a unique {@link org.springframework.core.task.TaskExecutor} bean in the context,
  * or an {@link java.util.concurrent.Executor} bean named "taskExecutor" otherwise. If
@@ -75,6 +84,9 @@ import org.springframework.core.Ordered;
  * getAsyncUncaughtExceptionHandler()}
  * method.</li>
  * </ul>
+ *
+ *<p> <b>注意：{@link AsyncConfigurer}配置类在应用程序上下文引导程序的早期初始化。
+ * 如果您在那里需要对其他bean的任何依赖，请确保尽可能将它们声明为“惰性”，以使它们也可以通过其他后处理器。</ b>
  *
  * <p><b>NOTE: {@link AsyncConfigurer} configuration classes get initialized early
  * in the application context bootstrap. If you need any dependencies on other beans

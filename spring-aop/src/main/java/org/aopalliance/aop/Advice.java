@@ -17,6 +17,9 @@
 package org.aopalliance.aop;
 
 /**
+ * Advice[可以理解为通知或者增强] 包括前置通知 before ,后置通知 after，焕然通知 around 等 .......。
+ * Advice(增强)的接口。
+ * <p>
  * Tag interface for Advice. Implementations can be any type
  * of advice, such as Interceptors.
  *

@@ -19,6 +19,18 @@ package org.springframework.aop;
 import org.springframework.lang.Nullable;
 
 /**
+ *
+ * 	目标对象的代理。
+ *	PrototypeTargetSource、SingletonTargetSource
+ *
+ *  那么问题来了：为什么SpringAOP代理不直接代理target，而需要通过代理TargetSource（target的来源，其内部持有target），
+ *  间接代理target呢？
+ *  通常情况下，一个proxy（代理对象）只能代理一个target，每次方法调用的目标也是唯一固定的target。但是，
+ *  如果让proxy代理TargetSource，可以使得每次方法调用的target实例都不同（当然也可以相同，这取决于TargetSource实现）。
+ *  这种机制使得方法调用变得灵活，可以扩展出很多高级功能，如：target pool（目标对象池）、hot swap（运行时目标对象热替换），等等。
+ * 　　TargetSource组件本身与SpringIoC容器无关，换句话说，target的生命周期不一定是受spring容器管理的，我们以往的XML中的AOP配置，
+ * 只是对受容器管理的bean而言的，我们当然可以手动创建一个target，同时使用Spring的AOP框架（而不使用IoC容器）
+ *
  * A {@code TargetSource} is used to obtain the current "target" of
  * an AOP invocation, which will be invoked via reflection if no around
  * advice chooses to end the interceptor chain itself.
@@ -36,9 +48,11 @@ import org.springframework.lang.Nullable;
 public interface TargetSource extends TargetClassAware {
 
 	/**
+	 * 返回目标对象的class
 	 * Return the type of targets returned by this {@link TargetSource}.
 	 * <p>Can return {@code null}, although certain usages of a {@code TargetSource}
 	 * might just work with a predetermined target class.
+	 *
 	 * @return the type of targets returned by this {@link TargetSource}
 	 */
 	@Override
@@ -46,6 +60,8 @@ public interface TargetSource extends TargetClassAware {
 	Class<?> getTargetClass();
 
 	/**
+	 * 所有对{@link #getTarget（）}的调用都会返回同一个对象吗？
+	 *
 	 * Will all calls to {@link #getTarget()} return the same object?
 	 * <p>In that case, there will be no need to invoke {@link #releaseTarget(Object)},
 	 * and the AOP framework can cache the return value of {@link #getTarget()}.
@@ -55,6 +71,7 @@ public interface TargetSource extends TargetClassAware {
 	boolean isStatic();
 
 	/**
+	 * 获取目标对象实例。
 	 * Return a target instance. Invoked immediately before the
 	 * AOP framework calls the "target" of an AOP method invocation.
 	 * @return the target object which contains the joinpoint,
@@ -65,6 +82,8 @@ public interface TargetSource extends TargetClassAware {
 	Object getTarget() throws Exception;
 
 	/**
+	 * 释放目标对象
+	 *
 	 * Release the given target object obtained from the
 	 * {@link #getTarget()} method, if any.
 	 * @param target object obtained from a call to {@link #getTarget()}

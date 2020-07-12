@@ -17,6 +17,9 @@
 package org.springframework.aop;
 
 /**
+ *
+ * 	切点:
+ *	Spring切点的的抽象。
  * Core Spring pointcut abstraction.
  *
  * <p>A pointcut is composed of a {@link ClassFilter} and a {@link MethodMatcher}.

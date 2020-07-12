@@ -829,12 +829,17 @@ public abstract class AbstractAopProxyTests {
 		assertThat(pc.isFrozen()).isTrue();
 		assertThatExceptionOfType(AopConfigException.class).as("Shouldn't be able to add Advisor when frozen").isThrownBy(() ->
 				advised.addAdvisor(new DefaultPointcutAdvisor(new NopInterceptor())))
-			.withMessageContaining("frozen");
+				.withMessageContaining("frozen");
 		// Check it still works: proxy factory state shouldn't have been corrupted
 		assertThat(proxied.getAge()).isEqualTo(target.getAge());
 		assertThat(advised.getAdvisors().length).isEqualTo(1);
 	}
 
+	/**
+	 * TODO---zzq
+	 *
+	 * @throws Throwable
+	 */
 	@Test
 	public void testCannotRemoveAdvisorWhenFrozen() throws Throwable {
 		TestBean target = new TestBean();
@@ -849,7 +854,7 @@ public abstract class AbstractAopProxyTests {
 		assertThat(pc.isFrozen()).isTrue();
 		assertThatExceptionOfType(AopConfigException.class).as("Shouldn't be able to remove Advisor when frozen").isThrownBy(() ->
 				advised.removeAdvisor(0))
-			.withMessageContaining("frozen");
+				.withMessageContaining("frozen");
 		// Didn't get removed
 		assertThat(advised.getAdvisors().length).isEqualTo(1);
 		pc.setFrozen(false);
