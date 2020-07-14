@@ -35,7 +35,9 @@ import org.springframework.beans.BeansException;
 public class PrototypeTargetSource extends AbstractPrototypeBasedTargetSource {
 
 	/**
+	 * 每次调用都会创建一个新的实例
 	 * Obtain a new prototype instance for every call.
+	 *
 	 * @see #newPrototypeInstance()
 	 */
 	@Override
@@ -44,6 +46,7 @@ public class PrototypeTargetSource extends AbstractPrototypeBasedTargetSource {
 	}
 
 	/**
+	 * 销毁实例
 	 * Destroy the given independent instance.
 	 * @see #destroyPrototypeInstance
 	 */
