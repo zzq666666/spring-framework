@@ -30,12 +30,13 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
+ * 处理器执行力链 包括目标处理器和拦截器集合
  * Handler execution chain, consisting of handler object and any handler interceptors.
  * Returned by HandlerMapping's {@link HandlerMapping#getHandler} method.
  *
  * @author Juergen Hoeller
- * @since 20.06.2003
  * @see HandlerInterceptor
+ * @since 20.06.2003
  */
 public class HandlerExecutionChain {
 

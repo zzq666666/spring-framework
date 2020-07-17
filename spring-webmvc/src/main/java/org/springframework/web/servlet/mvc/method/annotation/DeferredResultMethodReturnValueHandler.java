@@ -63,15 +63,14 @@ public class DeferredResultMethodReturnValueHandler implements HandlerMethodRetu
 		}
 		else if (returnValue instanceof ListenableFuture) {
 			result = adaptListenableFuture((ListenableFuture<?>) returnValue);
-		}
-		else if (returnValue instanceof CompletionStage) {
+		} else if (returnValue instanceof CompletionStage) {
 			result = adaptCompletionStage((CompletionStage<?>) returnValue);
-		}
-		else {
+		} else {
 			// Should not happen...
 			throw new IllegalStateException("Unexpected return value type: " + returnValue);
 		}
 
+		// 开启startDeferredResultProcessing
 		WebAsyncUtils.getAsyncManager(webRequest).startDeferredResultProcessing(result, mavContainer);
 	}
 

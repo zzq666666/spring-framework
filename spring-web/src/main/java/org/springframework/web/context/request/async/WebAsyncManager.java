@@ -38,6 +38,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.async.DeferredResult.DeferredResultHandler;
 
 /**
+ * 管理异步请求响应的核心类
  * The central class for managing asynchronous request processing, mainly intended
  * as an SPI and not typically used directly by application classes.
  *
@@ -465,6 +466,7 @@ public final class WebAsyncManager {
 		try {
 			interceptorChain.applyPreProcess(this.asyncWebRequest, deferredResult);
 			deferredResult.setResultHandler(result -> {
+				/// 设置resultHandler，当调用deferredResult的方法的时候，回去调用resultHandler执行改代码块 ，去响应浏览器
 				result = interceptorChain.applyPostProcess(this.asyncWebRequest, deferredResult, result);
 				setConcurrentResultAndDispatch(result);
 			});
@@ -480,6 +482,7 @@ public final class WebAsyncManager {
 			this.concurrentResultContext = processingContext;
 			this.errorHandlingInProgress = false;
 		}
+		// 开启异步
 		this.asyncWebRequest.startAsync();
 
 		if (logger.isDebugEnabled()) {
